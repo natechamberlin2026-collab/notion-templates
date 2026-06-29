@@ -1,0 +1,126 @@
+{
+  "name": "Project Tracker Template",
+  "description": "Freelance project management in Notion - track clients, deliverables, invoices, and timeline",
+  "icon": "📋",
+  "cover": "https://images.unsplash.com/photo-1507925921958-1a8b9c0e5d8f?w=1200",
+  "databases": [
+    {
+      "name": "Clients",
+      "description": "Client directory with contact info and project history",
+      "properties": {
+        "Name": { "type": "title" },
+        "Company": { "type": "rich_text" },
+        "Email": { "type": "email" },
+        "Platform": { "type": "select", "options": ["Upwork", "Contra", "Fiverr", "Direct", "Referral", "Twitter", "LinkedIn", "IndieHackers"] },
+        "Status": { "type": "select", "options": ["Lead", "Active", "Past", "Archived"] },
+        "Rating": { "type": "number", "format": "number" },
+        "Total Billed": { "type": "number", "format": "dollar" },
+        "Projects": { "type": "relation", "database": "Projects", "single_property": "Client" },
+        "Notes": { "type": "rich_text" },
+        "Added": { "type": "created_time" }
+      }
+    },
+    {
+      "name": "Projects",
+      "description": "Active and completed projects with full tracking",
+      "properties": {
+        "Name": { "type": "title" },
+        "Client": { "type": "relation", "database": "Clients", "single_property": "Projects" },
+        "Type": { "type": "select", "options": ["Discord Bot", "n8n Automation", "Notion Workspace", "Scraper", "API/SDK", "Template", "Consulting", "Other"] },
+        "Status": { "type": "select", "options": ["Discovery", "Proposal Sent", "Contracted", "In Progress", "Review", "Delivered", "Paid", "Archived"] },
+        "Platform": { "type": "select", "options": ["Upwork", "Contra", "Fiverr", "Direct", "Other"] },
+        "Rate Type": { "type": "select", "options": ["Fixed", "Hourly", "Retainer", "Milestone"] },
+        "Budget": { "type": "number", "format": "dollar" },
+        "Hours Estimated": { "type": "number" },
+        "Hours Actual": { "type": "number" },
+        "Start Date": { "type": "date" },
+        "Due Date": { "type": "date" },
+        "Delivered Date": { "type": "date" },
+        "Paid Date": { "type": "date" },
+        "Milestones": { "type": "relation", "database": "Milestones", "single_property": "Project" },
+        "Invoices": { "type": "relation", "database": "Invoices", "single_property": "Project" },
+        "Repo": { "type": "url" },
+        "Demo": { "type": "url" },
+        "Notes": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Milestones",
+      "description": "Project milestones with deliverables and payments",
+      "properties": {
+        "Name": { "type": "title" },
+        "Project": { "type": "relation", "database": "Projects", "single_property": "Milestones" },
+        "Description": { "type": "rich_text" },
+        "Amount": { "type": "number", "format": "dollar" },
+        "Status": { "type": "select", "options": ["Pending", "In Progress", "Submitted", "Approved", "Paid"] },
+        "Due Date": { "type": "date" },
+        "Submitted Date": { "type": "date" },
+        "Approved Date": { "type": "date" },
+        "Deliverables": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Invoices",
+      "description": "Invoice tracking with payment status",
+      "properties": {
+        "Invoice #": { "type": "title" },
+        "Project": { "type": "relation", "database": "Projects", "single_property": "Invoices" },
+        "Client": { "type": "relation", "database": "Clients" },
+        "Amount": { "type": "number", "format": "dollar" },
+        "Status": { "type": "select", "options": ["Draft", "Sent", "Viewed", "Paid", "Overdue", "Cancelled"] },
+        "Issued Date": { "type": "date" },
+        "Due Date": { "type": "date" },
+        "Paid Date": { "type": "date" },
+        "Platform": { "type": "select", "options": ["Upwork", "Contra", "Fiverr", "Stripe", "PayPal", "Wise", "Crypto", "Bank Transfer"] },
+        "Transaction ID": { "type": "rich_text" },
+        "Notes": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Tasks",
+      "description": "Granular task tracking within projects",
+      "properties": {
+        "Name": { "type": "title" },
+        "Project": { "type": "relation", "database": "Projects" },
+        "Milestone": { "type": "relation", "database": "Milestones" },
+        "Status": { "type": "select", "options": ["Backlog", "To Do", "In Progress", "Review", "Done", "Blocked"] },
+        "Priority": { "type": "select", "options": ["Critical", "High", "Medium", "Low"] },
+        "Estimated Hours": { "type": "number" },
+        "Actual Hours": { "type": "number" },
+        "Assignee": { "type": "rich_text" },
+        "Due Date": { "type": "date" },
+        "Tags": { "type": "multi_select" }
+      }
+    },
+    {
+      "name": "Time Entries",
+      "description": "Hourly tracking for billing",
+      "properties": {
+        "Date": { "type": "date" },
+        "Project": { "type": "relation", "database": "Projects" },
+        "Task": { "type": "relation", "database": "Tasks" },
+        "Hours": { "type": "number", "format": "number" },
+        "Description": { "type": "rich_text" },
+        "Billable": { "type": "checkbox", "default": true },
+        "Billed": { "type": "checkbox", "default": false }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "Project Dashboard",
+      "icon": "📊",
+      "content": "Linked databases: Active Projects, Upcoming Milestones, Unpaid Invoices, This Week's Tasks, Time Entry Summary"
+    },
+    {
+      "name": "Client Portal Template",
+      "icon": "🔗",
+      "content": "Public-facing page for clients to see project status, milestones, and deliverables"
+    },
+    {
+      "name": "Weekly Status Report",
+      "icon": "📋",
+      "content": "Template for weekly client updates: Completed, In Progress, Blockers, Next Week"
+    }
+  ]
+}

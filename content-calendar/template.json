@@ -1,0 +1,101 @@
+{
+  "name": "Content Calendar Template",
+  "description": "Social media and content planning for freelancers - plan, create, schedule, and track content across platforms",
+  "icon": "📅",
+  "cover": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=1200",
+  "databases": [
+    {
+      "name": "Content Ideas",
+      "description": "Backlog of content ideas before scheduling",
+      "properties": {
+        "Title": { "type": "title" },
+        "Topic": { "type": "select", "options": ["Technical Tutorial", "Case Study", "Industry News", "Tips & Tricks", "Behind the Scenes", "Portfolio Showcase", "Client Testimonial", "Tool Review", "Opinion", "Announcement"] },
+        "Platform": { "type": "multi_select", "options": ["Twitter/X", "LinkedIn", "Blog", "Newsletter", "YouTube", "TikTok", "Instagram", "Dev.to", "Hashnode", "Medium"] },
+        "Format": { "type": "select", "options": ["Thread", "Single Post", "Article", "Video", "Reel/Short", "Carousel", "Infographic", "Poll", "Q&A"] },
+        "Status": { "type": "select", "options": ["Idea", "Researching", "Drafting", "Editing", "Scheduled", "Published", "Repurposed"] },
+        "Priority": { "type": "select", "options": ["High", "Medium", "Low", "Someday"] },
+        "Target Date": { "type": "date" },
+        "Tags": { "type": "multi_select" },
+        "Related Project": { "type": "rich_text" },
+        "Notes": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Content Calendar",
+      "description": "Scheduled content with publish dates",
+      "properties": {
+        "Title": { "type": "title" },
+        "Content Idea": { "type": "relation", "database": "Content Ideas", "single_property": "Calendar Entries" },
+        "Platform": { "type": "select", "options": ["Twitter/X", "LinkedIn", "Blog", "Newsletter", "YouTube", "TikTok", "Instagram", "Dev.to", "Hashnode", "Medium"] },
+        "Publish Date": { "type": "date" },
+        "Publish Time": { "type": "date" },
+        "Status": { "type": "select", "options": ["Draft", "Ready", "Scheduled", "Published", "Failed"] },
+        "Content": { "type": "rich_text" },
+        "Media": { "type": "files" },
+        "Hashtags": { "type": "rich_text" },
+        "CTA": { "type": "rich_text" },
+        "URL": { "type": "url" },
+        "Metrics": { "type": "relation", "database": "Content Metrics", "single_property": "Calendar Entry" }
+      }
+    },
+    {
+      "name": "Content Metrics",
+      "description": "Performance tracking for published content",
+      "properties": {
+        "Calendar Entry": { "type": "relation", "database": "Content Calendar", "single_property": "Metrics" },
+        "Platform": { "type": "select", "options": ["Twitter/X", "LinkedIn", "Blog", "Newsletter", "YouTube", "TikTok", "Instagram", "Dev.to", "Hashnode", "Medium"] },
+        "Impressions": { "type": "number" },
+        "Engagements": { "type": "number" },
+        "Engagement Rate": { "type": "number", "format": "percent" },
+        "Clicks": { "type": "number" },
+        "Shares": { "type": "number" },
+        "Comments": { "type": "number" },
+        "Likes": { "type": "number" },
+        "Followers Gained": { "type": "number" },
+        "Recorded At": { "type": "date" },
+        "Notes": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Content Pillars",
+      "description": "Strategic content themes to rotate through",
+      "properties": {
+        "Name": { "type": "title" },
+        "Description": { "type": "rich_text" },
+        "Target Audience": { "type": "rich_text" },
+        "Key Topics": { "type": "multi_select" },
+        "Platforms": { "type": "multi_select", "options": ["Twitter/X", "LinkedIn", "Blog", "Newsletter", "YouTube", "TikTok", "Instagram"] },
+        "Frequency": { "type": "select", "options": ["Daily", "Weekly", "Bi-weekly", "Monthly"] },
+        "Active": { "type": "checkbox", "default": true },
+        "Color": { "type": "select", "options": ["Red", "Orange", "Yellow", "Green", "Blue", "Purple", "Pink", "Gray"] }
+      }
+    },
+    {
+      "name": "Repurposing Map",
+      "description": "Track how content gets repurposed across platforms",
+      "properties": {
+        "Original": { "type": "relation", "database": "Content Calendar" },
+        "Repurposed As": { "type": "relation", "database": "Content Calendar" },
+        "Transformation": { "type": "select", "options": ["Thread → Article", "Article → Thread", "Video → Thread", "Article → Carousel", "Thread → LinkedIn", "Blog → Newsletter", "Long → Short Video"] },
+        "Status": { "type": "select", "options": ["Planned", "In Progress", "Published"] }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "Content Dashboard",
+      "icon": "📊",
+      "content": "This Week's Schedule, Idea Backlog, Top Performing Content, Content Pillar Balance, Repurposing Pipeline"
+    },
+    {
+      "name": "Weekly Planning Template",
+      "icon": "📝",
+      "content": "Monday: Plan week, Tuesday: Create, Wednesday: Schedule, Thursday: Engage, Friday: Review metrics"
+    },
+    {
+      "name": "Monthly Content Review",
+      "icon": "📈",
+      "content": "Top 5 posts, pillar performance, platform growth, next month themes"
+    }
+  ]
+}

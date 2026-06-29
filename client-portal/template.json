@@ -1,0 +1,106 @@
+{
+  "name": "Client Portal Template",
+  "description": "Professional client-facing portal for freelance projects - share status, deliverables, invoices, and communicate",
+  "icon": "🔗",
+  "cover": "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200",
+  "databases": [
+    {
+      "name": "Projects (Client View)",
+      "description": "Filtered view of projects for specific client",
+      "properties": {
+        "Name": { "type": "title" },
+        "Type": { "type": "select", "options": ["Discord Bot", "n8n Automation", "Notion Workspace", "Scraper", "API/SDK", "Template", "Consulting"] },
+        "Status": { "type": "select", "options": ["Discovery", "Contracted", "In Progress", "Review", "Delivered", "Completed"] },
+        "Progress": { "type": "number", "format": "percent" },
+        "Start Date": { "type": "date" },
+        "Due Date": { "type": "date"date" },
+        "Milestones": { "type": "relation", "database": "Milestones (Client View)", "single_property": "Project" },
+        "Description": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Milestones (Client View)",
+      "description": "Client-visible milestones with deliverables",
+      "properties": {
+        "Name": { "type": "title" },
+        "Project": { "type": "relation", "database": "Projects (Client View)", "single_property": "Milestones" },
+        "Description": { "type": "rich_text" },
+        "Status": { "type": "select", "options": ["Upcoming", "In Progress", "Submitted for Review", "Approved", "Revisions Needed"] },
+        "Due Date": { "type": "date" },
+        "Deliverables": { "type": "rich_text" },
+        "Files": { "type": "files" },
+        "Feedback": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Deliverables",
+      "description": "All project deliverables organized by milestone",
+      "properties": {
+        "Name": { "type": "title" },
+        "Milestone": { "type": "relation", "database": "Milestones (Client View)" },
+        "Type": { "type": "select", "options": ["Code", "Documentation", "Design", "Video", "Config", "Access/Credentials", "Report"] },
+        "Status": { "type": "select", "options": ["Pending", "In Progress", "Submitted", "Approved", "Needs Revision"] },
+        "Description": { "type": "rich_text" },
+        "File": { "type": "files" },
+        "Link": { "type": "url" },
+        "Submitted Date": { "type": "date" },
+        "Notes": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Communications",
+      "description": "Centralized project communication log",
+      "properties": {
+        "Date": { "type": "date" },
+        "Project": { "type": "relation", "database": "Projects (Client View)" },
+        "Type": { "type": "select", "options": ["Update", "Question", "Decision Needed", "Feedback", "Approval", "Blocker"] },
+        "From": { "type": "select", "options": ["Client", "Freelancer"] },
+        "Message": { "type": "rich_text" },
+        "Resolved": { "type": "checkbox", "default": false },
+        "Related Milestone": { "type": "relation", "database": "Milestones (Client View)" }
+      }
+    },
+    {
+      "name": "Invoices (Client View)",
+      "description": "Client-facing invoice status",
+      "properties": {
+        "Invoice #": { "type": "title" },
+        "Project": { "type": "relation", "database": "Projects (Client View)" },
+        "Amount": { "type": "number", "format": "dollar" },
+        "Status": { "type": "select", "options": ["Sent", "Viewed", "Paid", "Overdue"] },
+        "Issued Date": { "type": "date" },
+        "Due Date": { "type": "date" },
+        "Paid Date": { "type": "date" },
+        "Payment Link": { "type": "url" }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "Welcome / Onboarding",
+      "icon": "👋",
+      "content": "Welcome message, project overview, communication guidelines, response time expectations, escalation process"
+    },
+    {
+      "name": "Project Status Dashboard",
+      "icon": "📊",
+      "content": "Linked databases: Active Projects, Upcoming Milestones, Pending Deliverables, Open Invoices, Recent Communications"
+    },
+    {
+      "name": "Resources & Access",
+      "icon": "🔐",
+      "content": "Shared credentials (1Password/LastPass links), repo access, staging URLs, documentation links, design files"
+    },
+    {
+      "name": "Meeting Notes",
+      "icon": "📝",
+      "content": "Template for call notes: Date, Attendees, Agenda, Decisions, Action Items, Next Meeting"
+    }
+  ],
+  "publicPages": [
+    "Welcome / Onboarding",
+    "Project Status Dashboard",
+    "Resources & Access",
+    "Meeting Notes"
+  ]
+}

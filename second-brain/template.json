@@ -1,0 +1,140 @@
+{
+  "name": "Second Brain - PARA Method Template",
+  "description": "Complete Notion workspace for personal knowledge management using the PARA method with n8n automation",
+  "icon": "🧠",
+  "cover": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200",
+  "databases": [
+    {
+      "name": "Inbox",
+      "description": "Quick capture for tasks, ideas, notes, links",
+      "properties": {
+        "Title": { "type": "title" },
+        "Type": { "type": "select", "options": ["Task", "Note", "Link", "Idea", "Reference"] },
+        "Source": { "type": "rich_text" },
+        "Status": { "type": "select", "options": ["New", "Processing", "Organized", "Archived"] },
+        "Date Added": { "type": "created_time" },
+        "Processed": { "type": "checkbox" }
+      }
+    },
+    {
+      "name": "Projects",
+      "description": "Active projects with clear outcomes and deadlines",
+      "properties": {
+        "Name": { "type": "title" },
+        "Area": { "type": "relation", "database": "Areas", "single_property": "Projects" },
+        "Status": { "type": "select", "options": ["Planning", "Active", "On Hold", "Completed", "Cancelled"] },
+        "Priority": { "type": "select", "options": ["Critical", "High", "Medium", "Low"] },
+        "Due Date": { "type": "date" },
+        "Progress": { "type": "number", "format": "percent" },
+        "Start Date": { "type": "date" },
+        "Completed Date": { "type": "date" },
+        "Related Areas": { "type": "relation", "database": "Areas" },
+        "Notes": { "type": "rich_text" },
+        "Tasks": { "type": "relation", "database": "Tasks", "single_property": "Project" }
+      }
+    },
+    {
+      "name": "Areas",
+      "description": "Ongoing responsibilities with standards to maintain",
+      "properties": {
+        "Name": { "type": "title" },
+        "Standard": { "type": "rich_text" },
+        "Current Projects": { "type": "relation", "database": "Projects", "single_property": "Area" },
+        "Last Review": { "type": "date" },
+        "Health Score": { "type": "number", "format": "percent" },
+        "Review Frequency": { "type": "select", "options": ["Weekly", "Bi-weekly", "Monthly", "Quarterly"] },
+        "Icon": { "type": "select", "options": ["🏠", "💼", "💰", "❤️", "🏋️", "📚", "🎨", "⚙️"] }
+      }
+    },
+    {
+      "name": "Resources",
+      "description": "Reference material organized by topic",
+      "properties": {
+        "Title": { "type": "title" },
+        "Topic": { "type": "select", "options": ["Learning", "Reference", "Templates", "Inspiration", "Tools", "People", "Finance", "Health", "Tech", "Creative"] },
+        "Type": { "type": "select", "options": ["Article", "Video", "Book", "Course", "Template", "Tool", "Document", "Link", "Note"] },
+        "Source": { "type": "url" },
+        "Tags": { "type": "multi_select" },
+        "Rating": { "type": "number", "format": "number" },
+        "Date Added": { "type": "created_time" },
+        "Last Reviewed": { "type": "date" },
+        "Projects": { "type": "relation", "database": "Projects" },
+        "Areas": { "type": "relation", "database": "Areas" },
+        "Notes": { "type": "rich_text" }
+      }
+    },
+    {
+      "name": "Tasks",
+      "description": "Actionable items linked to Projects or Areas",
+      "properties": {
+        "Name": { "type": "title" },
+        "Project": { "type": "relation", "database": "Projects", "single_property": "Tasks" },
+        "Area": { "type": "relation", "database": "Areas" },
+        "Status": { "type": "select", "options": ["Backlog", "To Do", "In Progress", "Waiting", "Done", "Cancelled"] },
+        "Priority": { "type": "select", "options": ["Critical", "High", "Medium", "Low"] },
+        "Due Date": { "type": "date" },
+        "Energy": { "type": "select", "options": ["High", "Medium", "Low"] },
+        "Time Estimate": { "type": "number", "suffix": " min" },
+        "Actual Time": { "type": "number", "suffix": " min" },
+        "Dependencies": { "type": "relation", "database": "Tasks", "single_property": "Dependents" },
+        "Dependents": { "type": "relation", "database": "Tasks", "single_property": "Dependencies" },
+        "Created": { "type": "created_time" },
+        "Completed": { "type": "last_edited_time" }
+      }
+    },
+    {
+      "name": "Notes",
+      "description": "Atomic notes linked to Resources, Projects, or Areas",
+      "properties": {
+        "Title": { "type": "title" },
+        "Type": { "type": "select", "options": ["Literature", "Permanent", "Fleeting", "Project", "Meeting", "Daily"] },
+        "Topics": { "type": "multi_select" },
+        "Source": { "type": "url" },
+        "Projects": { "type": "relation", "database": "Projects" },
+        "Areas": { "type": "relation", "database": "Areas" },
+        "Resources": { "type": "relation", "database": "Resources" },
+        "Status": { "type": "select", "options": ["Draft", "Refining", "Published", "Archived"] },
+        "Created": { "type": "created_time" },
+        "Updated": { "type": "last_edited_time" }
+      }
+    },
+    {
+      "name": "Daily Notes",
+      "description": "Daily journaling and planning",
+      "properties": {
+        "Date": { "type": "date" },
+        "Mood": { "type": "select", "options": ["😄 Great", "🙂 Good", "😐 Okay", "😕 Low", "😔 Bad"] },
+        "Energy": { "type": "select", "options": ["High", "Medium", "Low"] },
+        "Focus": { "type": "rich_text" },
+        "Wins": { "type": "rich_text" },
+        "Challenges": { "type": "rich_text" },
+        "Gratitude": { "type": "rich_text" },
+        "Notes": { "type": "rich_text" },
+        "Tasks Completed": { "type": "relation", "database": "Tasks" },
+        "Time Spent": { "type": "number", "suffix": " hrs" }
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "Dashboard",
+      "icon": "🏠",
+      "content": "Main dashboard with linked databases for Today's Tasks, Active Projects, Areas Needing Review, Inbox Count, Upcoming Due Dates"
+    },
+    {
+      "name": "Weekly Review",
+      "icon": "📅",
+      "content": "Template for weekly review: Wins, Challenges, Metrics, Project Updates, Area Health, Next Week Priorities"
+    },
+    {
+      "name": "Monthly Review",
+      "icon": "📆",
+      "content": "Template for monthly review: Goals Progress, Habits, Projects Completed, Areas Health, Resource Cleanup, Next Month Focus"
+    },
+    {
+      "name": "Project Template",
+      "icon": "📋",
+      "content": "Standard project template with: Objective, Success Criteria, Milestones, Tasks, Resources, Risks, Retrospective"
+    }
+  ]
+}
